@@ -334,10 +334,10 @@ This means that Kryo is not able to deserialize the object because the type is m
 2. Using [custom serializer](https://github.com/EsotericSoftware/kryo#serializers) for the type in question. Some existing alternative serializers can be found at [https://github.com/magro/kryo-serializers](https://github.com/magro/kryo-serializers). A custom serializer can be used as follows:
 
     2.1 Using Kryo's @FieldSerializer.Bind annotation for the field causing the exception. Here is how to bind custom serializer.
-    ```
-    @FieldSerializer.Bind(CustomSerializer.class)
-    SomeType someType
-    ```
+    
+      @FieldSerializer.Bind(CustomSerializer.class)
+      SomeType someType
+    
     Kryo will use this CustomSerializer to serialize and deserialize type SomeType.
 
     2.2 Using custom serializer with stream codec. You need to define custom stream codec and attach this custome codec to the input port that is expecting the type in question. Following is an example of creating custom stream codec:
