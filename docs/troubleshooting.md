@@ -335,8 +335,8 @@ This means that Kryo is not able to deserialize the object because the type is m
 
     2.1 Using Kryo's @FieldSerializer.Bind annotation for the field causing the exception. Here is how to bind custom serializer.
     
-      @FieldSerializer.Bind(CustomSerializer.class)
-      SomeType someType
+        @FieldSerializer.Bind(CustomSerializer.class)
+        SomeType someType
     
     Kryo will use this CustomSerializer to serialize and deserialize type SomeType.
 
