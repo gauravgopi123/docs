@@ -341,32 +341,32 @@ This means that Kryo is not able to deserialize the object because the type is m
     Kryo will use this CustomSerializer to serialize and deserialize type SomeType.
 
     2.2 Using custom serializer with stream codec. You need to define custom stream codec and attach this custome codec to the input port that is expecting the type in question. Following is an example of creating custom stream codec:
-    ```
-    import java.io.IOException;
-    import java.io.ObjectInputStream;
-    import java.util.UUID;
+    
+        import java.io.IOException;
+        import java.io.ObjectInputStream;
+        import java.util.UUID;
 
-    import com.esotericsoftware.kryo.Kryo;
+        import com.esotericsoftware.kryo.Kryo;
 
-    public class CustomSerializableStreamCodec<T> extends com.datatorrent.lib.codec.KryoSerializableStreamCodec<T>
-    {
-        private void readObject(ObjectInputStream in) throws IOException, ClassNotFoundException
+        public class CustomSerializableStreamCodec<T> extends com.datatorrent.lib.codec.KryoSerializableStreamCodec<T>
         {
-            in.defaultReadObject();
-            this.kryo = new Kryo();
-            this.kryo.setClassLoader(Thread.currentThread().getContextClassLoader());
-            this.kryo.register(SomeType.class, new CustomSerializer()); // Register the types along with custom serializers
-        }
+            private void readObject(ObjectInputStream in) throws IOException, ClassNotFoundException
+            {
+                in.defaultReadObject();
+                this.kryo = new Kryo();
+                this.kryo.setClassLoader(Thread.currentThread().getContextClassLoader());
+                this.kryo.register(SomeType.class, new CustomSerializer()); // Register the types along with custom serializers
+            }
 
-        private static final long serialVersionUID = 201411031405L;
-    }
-    ``` 
+            private static final long serialVersionUID = 201411031405L;
+        }
+        
     Let's say there is an Operator `CustomOperator` with an input port `input` that expects type SomeType. Following is how to use above defined custom stream codec
-    ```
-    CustomOperator op = dag.addOperator("CustomOperator", new CustomOperator());
-    CustomSerializableStreamCodec<SomeType> codec = new CustomSerializableStreamCodec<SomeType>();
-    dag.setInputPortAttribute(op.input, Context.PortContext.STREAM_CODEC, codec);
-    ```
+    
+        CustomOperator op = dag.addOperator("CustomOperator", new CustomOperator());
+        CustomSerializableStreamCodec<SomeType> codec = new CustomSerializableStreamCodec<SomeType>();
+        dag.setInputPortAttribute(op.input, Context.PortContext.STREAM_CODEC, codec);
+    
     This works only when the type is passed between different operators. If the type is part of the operator state, please use one of the above two ways. 
 
 # Log analysis
