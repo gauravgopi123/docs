@@ -324,7 +324,7 @@ Add the property :
 
 Check if the host where gateway is running has yarn-site.xml file. You need to have all Hadoop configuration files accessible to dtGateway for it to run successfully.
 
-### Application throws following Kryo exception.
+### Application throwing following Kryo exception.
 
       com.esotericsoftware.kryo.KryoException: Class cannot be created (missing no-arg constructor): 
 
